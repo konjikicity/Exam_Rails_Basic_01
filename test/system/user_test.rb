@@ -2,9 +2,9 @@ require 'test_helper'
 require "application_system_test_case"
 
 class UserTest < ApplicationSystemTestCase
-  # switch to display Browser
-  driven_by :selenium, using: :headless_chrome
-  # driven_by :selenium, using: :chrome
+  #switch to display Browser
+  #driven_by :selenium, using: :headless_chrome
+  driven_by :selenium, using: :chrome
 
   def setup
     @user = User.create(name: "Example User", email: "user@example.com",
@@ -56,5 +56,14 @@ class UserTest < ApplicationSystemTestCase
     fill_in "Password", with: "foobar"
     click_button "Log in"
   end
+
+  test "signup failed with invalid user" do
+    visit signup_url
+    fill_in "Name", with: "Another User"
+    fill_in "Email", with: "another_user@example.com"
+    fill_in "Password", with: "foobar"
+    click_button "Create my account"
+    assert_no_text "Signup success!"
+ end
 end
 
